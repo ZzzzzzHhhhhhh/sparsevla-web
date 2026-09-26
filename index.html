@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive"><meta name="referrer" content="no-referrer">
+<meta name="description" content="SparseVLA: training-free, trajectory-aware 2:4 weight pruning and hardware-efficient deployment for vision-language-action models. Anonymous project page.">
+<title>SparseVLA — Anonymous Project Page</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="header"><a class="brand" href="#main">Sparse<span>VLA</span><i aria-hidden="true"></i></a><nav aria-label="Sections"><a href="#demonstrations">In action</a><a href="#method">Method</a><a href="#results">Results</a><a class="nav-paper" href="paper.pdf">Paper ↗</a></nav></header>
+<main id="main">
+<section class="hero wrap">
+<p class="eyebrow">VISION–LANGUAGE–ACTION MODELS · TRAINING-FREE SPARSITY</p>
+<h1>SparseVLA: Towards <span>Smaller and Faster</span><br class="wide"> Vision-Language-Action Models</h1>
+<p class="lead">Preserve how a policy responds as a task unfolds.<br>Turn structured weight sparsity into practical inference gains.</p>
+<p class="authors">Anonymous Authors</p>
+<div class="actions"><a class="button primary" href="paper.pdf">Read the paper <span>↗</span></a><a class="button secondary" href="#demonstrations">Watch the robot <span>↓</span></a></div>
+</section>
+<section class="highlights wrap" aria-label="Real-robot results">
+<div><strong>1.91–2.07<span>×</span></strong><h2>Faster robot policy inference</h2><p>Final deployment vs. Dense eager</p></div>
+<div><strong>73.75<span>%</span></strong><h2>Real-robot task success</h2><p>59 / 80 successes for both policies</p></div>
+<div><strong>2:4</strong><h2>Structured weight sparsity</h2><p>Two weights retained in each pruned group</p></div>
+<p class="metric-note">Robot measurements cover the four tasks in the main paper, with 20 trials per task and method. Videos below illustrate individual executions.</p>
+</section>
+<section class="section wrap" id="demonstrations">
+<div class="section-head"><div><p class="eyebrow">IN ACTION</p><h2>Six tasks. One real robot.</h2></div><p>FR3 manipulation demonstrations.<br>Original playback timing · audio removed.</p></div>
+<div class="videos">
+<article class="video-card"><video controls playsinline preload="none" poster="phone-stand.jpg" aria-label="Phone placement demonstration"><source src="phone-stand.mp4" type="video/mp4">Your browser does not support this video. <a href="phone-stand.mp4">Download video</a>.</video><div class="caption"><span class="number">01</span><div><h3>Phone stand</h3><p>Grasp the phone, align it with the stand, and release.</p></div><span class="tag">Main paper</span></div></article>
+<article class="video-card"><video controls playsinline preload="none" poster="pen-holder.jpg" aria-label="Pen insertion demonstration"><source src="pen-holder.mp4" type="video/mp4">Your browser does not support this video. <a href="pen-holder.mp4">Download video</a>.</video><div class="caption"><span class="number">02</span><div><h3>Pen holder</h3><p>Pick up the pen and insert it into the holder.</p></div><span class="tag">Main paper</span></div></article>
+<article class="video-card"><video controls playsinline preload="none" poster="stack-bowls.jpg" aria-label="Three-bowl stacking demonstration"><source src="stack-bowls.mp4" type="video/mp4">Your browser does not support this video. <a href="stack-bowls.mp4">Download video</a>.</video><div class="caption"><span class="number">03</span><div><h3>Stack bowls</h3><p>Combine three bowls into one stack over two transfers.</p></div><span class="tag">Main paper</span></div></article>
+<article class="video-card"><video controls playsinline preload="none" poster="pineapple-bun.jpg" aria-label="Pineapple-bun transfer demonstration"><source src="pineapple-bun.mp4" type="video/mp4">Your browser does not support this video. <a href="pineapple-bun.mp4">Download video</a>.</video><div class="caption"><span class="number">04</span><div><h3>Pineapple bun</h3><p>Transfer the bun from the conveyor belt to the plate.</p></div><span class="tag">Main paper</span></div></article>
+<article class="video-card"><video controls playsinline preload="none" poster="toast.jpg" aria-label="Toast transfer demonstration"><source src="toast.mp4" type="video/mp4">Your browser does not support this video. <a href="toast.mp4">Download video</a>.</video><div class="caption"><span class="number">05</span><div><h3>Toast</h3><p>Pick up the toast and place it on the white plate.</p></div><span class="tag">Appendix D</span></div></article>
+<article class="video-card"><video controls playsinline preload="none" poster="chocolate.jpg" aria-label="Chocolate transfer demonstration"><source src="chocolate.mp4" type="video/mp4">Your browser does not support this video. <a href="chocolate.mp4">Download video</a>.</video><div class="caption"><span class="number">06</span><div><h3>Chocolate</h3><p>Transfer the chocolate from the belt to the plate.</p></div><span class="tag">Appendix D</span></div></article>
+</div>
+<p class="note">Phone stand, pen holder, bowl stacking, and pineapple-bun transfer are evaluated quantitatively in the main paper. Toast and chocolate are additional task sequences in Appendix D.</p>
+</section>
+<div class="method-band"><section class="section wrap" id="method">
+<p class="eyebrow">THE METHOD</p><h2>Preserve transitions.<br><span>Execute sparsity efficiently.</span></h2>
+<p class="intro">A small error at one control step can compound during a rollout. SparseVLA uses activation changes between consecutive observations as a complementary pruning signal, while constraining the error at individual steps.</p>
+<figure class="method-figure"><a href="method.png" aria-label="Open the SparseVLA method diagram at full size"><img src="method.png" alt="SparseVLA pipeline: transition-aware mask selection, transition-aware weight reconstruction, and shape-aware sparse execution." loading="lazy"></a><figcaption>Transition-aware pruning and hardware-efficient execution in one training-free framework.</figcaption></figure>
+<div class="steps"><article><span class="number">01 / SELECT</span><h3>Choose a sparse pattern</h3><p>Compare all six 2:4 patterns in each weight group. Use temporal information to rank candidates within a static reconstruction-cost constraint.</p></article><article><span class="number">02 / RECONSTRUCT</span><h3>Balance states and changes</h3><p>Blend static and joint-curvature weight reconstructions under the same mask to preserve outputs and their inter-step changes.</p></article><article><span class="number">03 / DEPLOY</span><h3>Match execution to shape</h3><p>Route profitable projections to sparse kernels and fuse operations to reduce memory traffic and kernel-launch overhead.</p></article></div>
+</section></div>
+<section class="section wrap" id="results">
+<div class="section-head"><div><p class="eyebrow">EXPERIMENTS</p><h2>Success, memory, and latency.</h2></div><p>Two VLA backbones in simulation.<br>Four quantitative tasks on the FR3.</p></div>
+<h3 class="table-title">Real-robot evaluation</h3>
+<div class="table-scroll" role="region" aria-label="Real-robot evaluation results" tabindex="0"><table><caption>20 trials per task and method · Tables 2(c) and 3</caption><thead><tr><th scope="col">Task</th><th scope="col">Dense success</th><th scope="col">SparseVLA success</th><th scope="col">Inference speedup</th><th scope="col">Peak CUDA memory saved</th></tr></thead><tbody><tr><th scope="row">Phone stand</th><td>13 / 20</td><td>14 / 20</td><td>1.92×</td><td>4.81%</td></tr><tr><th scope="row">Pen holder</th><td>15 / 20</td><td>17 / 20</td><td>2.01×</td><td>4.78%</td></tr><tr><th scope="row">Stack bowls</th><td>12 / 20</td><td>10 / 20</td><td>2.07×</td><td>4.78%</td></tr><tr><th scope="row">Pineapple bun</th><td>19 / 20</td><td>18 / 20</td><td>1.91×</td><td>4.77%</td></tr><tr class="total"><th scope="row">Overall</th><td>59 / 80</td><td>59 / 80</td><td>—</td><td>—</td></tr></tbody></table></div>
+<p class="note">Speedup and peak memory savings compare final post-conversion SparseVLA policies with unpruned Dense eager on matched inputs. These are deployment-level gains; they do not isolate the contribution of sparse kernels. Task-level success improves for phone and pen, and decreases for bowls and bun.</p>
+<h3 class="table-title second-table">Simulation results</h3>
+<div class="table-scroll" role="region" aria-label="Simulation evaluation results" tabindex="0"><table><caption>Aggregate success rates in eager mode · Table 1</caption><thead><tr><th scope="col">Backbone / benchmark</th><th scope="col">Dense success</th><th scope="col">SparseVLA success</th><th scope="col">Stable CUDA allocation saved</th></tr></thead><tbody><tr><th scope="row">π<sub>0.5</sub> / LIBERO</th><td>96.15%</td><td>97.25%</td><td>20.95%</td></tr><tr><th scope="row">GR00T N1.7 / SimplerEnv</th><td>63.15%</td><td>65.77%</td><td>5.23% / 5.23%</td></tr></tbody></table></div>
+<p class="note">GR00T memory savings are reported for Google Robot / WidowX. Stable CUDA allocation in simulation and peak CUDA memory on the real robot are different metrics. Full baselines, matched-backend timing, and experimental protocols are in the paper.</p>
+</section>
+<section class="paper-section wrap" id="paper"><div><p class="eyebrow">THE PAPER</p><h2>SparseVLA</h2><p>Towards Smaller and Faster Vision-Language-Action Models</p><p class="authors">Anonymous Authors · Under double-blind review</p></div><a class="button primary" href="paper.pdf">Read the full paper <span>↗</span></a></section>
+</main><footer class="wrap"><a class="brand" href="#main">Sparse<span>VLA</span></a><span>Anonymous research project</span><a href="#main">Back to top ↑</a></footer>
+</body></html>
